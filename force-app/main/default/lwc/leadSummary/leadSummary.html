@@ -1,0 +1,41 @@
+<template>
+    
+    <lightning-card>
+        <div class="slds-m-around_medium">
+            <template if:true={allLeads}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={allLeads}
+                    columns={columns}
+                    hide-checkbox-column = true
+                    onrowaction={handleRowAction}>
+                </lightning-datatable>
+            </template>
+        </div>
+    </lightning-card>
+
+    <template if:true={isAssignModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-card title="Assign Lead" icon-name="utility:cart" >
+                        <lightning-combobox 
+                            class="slds-p-around_xx-small"
+                            label="Assign" 
+                            placeholder="Select the user to Assign the Lead"
+                            value={userselected}
+                            onchange={handleUserChange} 
+                            options={userVal}>
+                        </lightning-combobox>
+                        
+                        <lightning-button class="slds-p-around_xx-small slds-float_right" variant="brand-outline" label="Assign" onclick={assignLead}></lightning-button>
+                        <lightning-button class="slds-p-around_xx-small slds-float_right" variant="brand-outline" label="Close" onclick={closeModal}></lightning-button>
+                    </lightning-card>
+                </div>
+            </div>
+        </section>
+    </template>
+
+</template>
