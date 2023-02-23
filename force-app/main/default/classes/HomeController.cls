@@ -1,7 +1,7 @@
 public with sharing class HomeController {
     @AuraEnabled(cacheable=true)
     public static List<Lead> getLeads(){
-        List<Lead> leads = [SELECT Id, FirstName, LastName, Email, Company, City, State, LeadSource, OwnerId, Owner.Name
+        List<Lead> leads = [SELECT Id, FirstName, LastName, Email, Company, City, State, LeadSource, OwnerId, Owner.Name, Status
                                         FROM Lead
                                         ORDER BY Owner.Name];
         return leads;
