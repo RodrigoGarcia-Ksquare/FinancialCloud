@@ -13,9 +13,10 @@ const COLS = [
     { label: 'Name', fieldName: 'FirstName'},
     { label: 'Last Name', fieldName: 'LastName'},
     { label: 'Email', fieldName: 'Email', type: 'email'},
-    { label: 'Sales Representative', fieldName: 'RecordOwner', type: 'text'},
     { label: 'City', fieldName: 'City'},
     { label: 'State', fieldName: 'State'},
+    { label: 'Status', fieldName: 'Status'},
+    { label: 'Sales Representative', fieldName: 'RecordOwner', type: 'text'},
     { label: 'Assign', type: 'action', 
         typeAttributes: 
         { 
