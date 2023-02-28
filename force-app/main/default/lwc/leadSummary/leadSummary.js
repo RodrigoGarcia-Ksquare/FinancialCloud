@@ -2,6 +2,7 @@ import { LightningElement, wire, api, track } from 'lwc';
 import getLeads from '@salesforce/apex/HomeController.getLeads';
 import assignUser from '@salesforce/apex/HomeController.assignUser';
 import getAdminUsers from '@salesforce/apex/HomeController.getAdminUsers';
+import getLeadsCount from '@salesforce/apex/HomeController.getLeadsCount';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
 
@@ -17,6 +18,7 @@ const COLS = [
     { label: 'State', fieldName: 'State'},
     { label: 'Status', fieldName: 'Status'},
     { label: 'Sales Representative', fieldName: 'RecordOwner', type: 'text'},
+    { label: 'Sales Rep Leads', fieldName: 'RecordOwnerLeadCount', type: 'number'},
     { label: 'Assign', type: 'action', 
         typeAttributes: 
         { 
@@ -35,6 +37,9 @@ export default class LeadSummary extends LightningElement {
     isAssignModalOpen = false;
     userSelected;
     userVal;
+    wiredLeadResult;
+    countLead = 0;
+    leadPerson;
 
     handleUserChange(event){
         this.userSelected = event.detail.value;
@@ -66,6 +71,22 @@ export default class LeadSummary extends LightningElement {
                 leadOwner.RecordOwner = acc.Owner.Name;
                 return leadOwner;
             })
+            
+            
+            this.allLeads.forEach(lead => {
+                this.leadPerson = lead.RecordOwner;
+                console.log(this.leadPerson);
+                for (let i = 0; i < this.allLeads.length; i++) {
+                    if (lead.RecordOwner == this.allLeads[i].RecordOwner) {
+                        this.countLead += 1;
+                    }
+                    // console.log(this.allLeads[i].RecordOwner);
+                }
+                lead.RecordOwnerLeadCount = this.countLead;
+                this.countLead = 0;
+                // console.log(lead.RecordOwnerLeadCount);
+            });
+
         } else if(error){
             this.error = error;
         }
@@ -96,8 +117,8 @@ export default class LeadSummary extends LightningElement {
                     variant: 'success'
                 })
             );
-            refreshApex(this.allLeads);
         })
+        return refreshApex(this.wiredLeadResult);
     }
 
 }
