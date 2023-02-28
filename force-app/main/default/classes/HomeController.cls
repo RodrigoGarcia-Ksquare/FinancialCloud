@@ -7,6 +7,13 @@ public with sharing class HomeController {
         return leads;
     }
 
+    @AuraEnabled(cacheable=true)
+    public static Integer getLeadsCount(String ownName){
+        Integer ownLeadCount = [SELECT COUNT() FROM Lead WHERE Owner.Name LIKE :ownName];
+        system.debug('the count is '+ ownLeadCount);
+        return ownLeadCount;
+    }
+
     @AuraEnabled
     public static void assignUser(Id recordId, Id userId){
         Lead leadToBeAssigned = [SELECT Id, Name, OwnerId
