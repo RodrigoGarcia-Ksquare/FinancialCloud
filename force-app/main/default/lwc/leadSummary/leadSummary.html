@@ -1,6 +1,16 @@
 <template>
     
     <lightning-card>
+
+        <h1>Branch selection:</h1>
+
+        <select class="slds-select" name = "selectedBranch" onchange={branchChangeHandler} id="select-01">
+            <option value=""> --- </option>
+            <template for:each={branches} for:item="branch">
+                    <option key={branch.Id} value={branch.Id}> {branch.Name} </option>
+            </template>
+        </select>
+
         <div class="slds-m-around_medium">
             <template if:true={allLeads}>
                 <lightning-datatable
